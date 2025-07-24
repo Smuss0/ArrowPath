@@ -2,7 +2,7 @@
 {
   "modid": "arrowpath",
   "name": "Arrow Path",
-  "description": "Example placeholder mod.",
+  "description": "Mod to visualize the trails or arrows with a line, has multiple option, /arrowpath SOLO/MULTI/ALL.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
