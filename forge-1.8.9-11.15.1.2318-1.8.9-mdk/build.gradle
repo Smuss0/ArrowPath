@@ -1,4 +1,3 @@
-// Per chi vuole la versione bleeding edge
 buildscript {
     repositories {
         jcenter()
@@ -9,19 +8,19 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        // NIENTE deobfCompile qui!
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-// Imposta Java 7 come compatibilità per la compilazione
 tasks.withType(JavaCompile) {
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
 }
 
 version = "1.0"
-group= "com.arrowpath"
+group = "com.arrowpath"
 archivesBaseName = "arrowpath"
 
 minecraft {
@@ -31,19 +30,5 @@ minecraft {
 }
 
 dependencies {
-    // dipendenze qui...
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+    // Qui puoi aggiungere altre dipendenze, ma NON deobfCompile Forge
 }
