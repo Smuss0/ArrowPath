@@ -19,57 +19,63 @@ public class ArrowPathCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/arrowpath <toggle|player|party|all|red|green|blue|...>";
+        return "/arrowpath <toggle|player|party|all|rgb|<color>>";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 0) {
-            send("Usage: /arrowpath <toggle|player|party|all|colorName>");
+            send("Usage: /arrowpath <toggle|player|party|all|rgb|<color>>");
             return;
         }
 
-        String arg = args[0].toLowerCase();
-
-        switch (arg) {
+        switch (args[0].toLowerCase()) {
             case "toggle":
                 ArrowPathMain.enabled = !ArrowPathMain.enabled;
+                send("Mod " + (ArrowPathMain.enabled ? "enabled" : "disabled"));
                 ArrowPathMain.saveConfig();
-                send("Arrow path rendering " + (ArrowPathMain.enabled ? "enabled" : "disabled"));
                 break;
 
             case "player":
                 ArrowPathMain.currentMode = ArrowPathMain.Mode.PLAYER;
+                send("Now showing arrows from you only.");
                 ArrowPathMain.saveConfig();
-                send("Now showing arrows shot by you only.");
                 break;
 
             case "party":
                 ArrowPathMain.currentMode = ArrowPathMain.Mode.PARTY;
+                send("Now showing arrows from players.");
                 ArrowPathMain.saveConfig();
-                send("Now showing arrows shot by all players.");
                 break;
 
             case "all":
                 ArrowPathMain.currentMode = ArrowPathMain.Mode.ALL;
+                send("Now showing all arrows.");
                 ArrowPathMain.saveConfig();
-                send("Now showing arrows shot by all entities.");
+                break;
+
+            case "rgb":
+                ArrowPathMain.rgbMode = true;
+                send("Trail color set to RGB rainbow.");
+                ArrowPathMain.saveConfig();
                 break;
 
             default:
-                if (ArrowPathColors.NAMED_COLORS.containsKey(arg)) {
-                    ArrowPathMain.colorName = arg;
-                    ArrowPathMain.trailColor = ArrowPathColors.getColor(arg);
+                if (ArrowPathColors.NAMED_COLORS.containsKey(args[0].toLowerCase())) {
+                    ArrowPathMain.colorName = args[0].toLowerCase();
+                    ArrowPathMain.currentColor = ArrowPathColors.NAMED_COLORS.get(ArrowPathMain.colorName);
+                    ArrowPathMain.rgbMode = false;
+                    send("Trail color set to: " + ArrowPathMain.colorName);
                     ArrowPathMain.saveConfig();
-                    send("Arrow trail color set to " + arg);
                 } else {
-                    send("Unknown mode or color. Use: toggle, player, party, all, or a valid color name.");
+                    send("Unknown color or option.");
                 }
+                break;
         }
     }
 
-    private void send(String message) {
-        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("[ArrowPath] " + message));
+    private void send(String msg) {
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("[ArrowPath] " + msg));
     }
 
     @Override

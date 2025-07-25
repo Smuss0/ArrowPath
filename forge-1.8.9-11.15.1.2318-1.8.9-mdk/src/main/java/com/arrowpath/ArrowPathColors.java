@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ArrowPathColors {
+
     public static final Map<String, Color> NAMED_COLORS = new HashMap<>();
 
     static {
@@ -149,7 +150,6 @@ public class ArrowPathColors {
         NAMED_COLORS.put("yellowgreen", new Color(154, 205, 50));
         NAMED_COLORS.put("rebeccapurple", new Color(102, 51, 153));
     }
-
     public static Color getColor(String name) {
         return NAMED_COLORS.getOrDefault(name.toLowerCase(), Color.RED);
     }
